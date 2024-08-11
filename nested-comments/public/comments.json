@@ -1,0 +1,111 @@
+[
+  {
+    "id": 1,
+    "content": "Great article on web development! Really enjoyed the insights on modern frameworks.",
+    "votes": 15,
+    "timestamp": "2024-06-16T10:00:00Z",
+    "replies": [
+      {
+        "id": 2,
+        "content": "Glad you liked it! Do you have a favorite framework?",
+        "votes": 7,
+        "timestamp": "2024-06-16T11:00:00Z",
+        "replies": []
+      },
+      {
+        "id": 3,
+        "content": "I found the section on React particularly useful. Thanks for the detailed explanation!",
+        "votes": 12,
+        "timestamp": "2024-06-16T12:00:00Z",
+        "replies": []
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "content": "The comparison between Vue.js and Angular was very insightful. Good job!",
+    "votes": 22,
+    "timestamp": "2024-06-16T09:00:00Z",
+    "replies": [
+      {
+        "id": 5,
+        "content": "Thanks! Do you use Vue.js in your projects?",
+        "votes": 5,
+        "timestamp": "2024-06-16T09:30:00Z",
+        "replies": [
+          {
+            "id": 6,
+            "content": "Yes, I use Vue.js for most of my projects. It's very flexible and easy to work with.",
+            "votes": 3,
+            "timestamp": "2024-06-16T09:45:00Z",
+            "replies": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "content": "Interesting read, but I think more examples would be helpful.",
+    "votes": 8,
+    "timestamp": "2024-06-16T08:00:00Z",
+    "replies": []
+  },
+  {
+    "id": 8,
+    "content": "The author did a great job breaking down the complex topics.",
+    "votes": 14,
+    "timestamp": "2024-06-16T07:00:00Z",
+    "replies": [
+      {
+        "id": 9,
+        "content": "I agree. The explanations were clear and concise.",
+        "votes": 9,
+        "timestamp": "2024-06-16T07:30:00Z",
+        "replies": []
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "content": "I didn't find the content very useful. Maybe it could be improved with more recent data.",
+    "votes": 3,
+    "timestamp": "2024-06-16T06:00:00Z",
+    "replies": []
+  },
+  {
+    "id": 11,
+    "content": "I appreciate the effort, but I think there are some areas that could use more depth.",
+    "votes": 6,
+    "timestamp": "2024-06-15T10:00:00Z",
+    "replies": []
+  },
+  {
+    "id": 12,
+    "content": "The section on performance optimization was particularly helpful. Thanks for sharing!",
+    "votes": 18,
+    "timestamp": "2024-06-15T09:00:00Z",
+    "replies": []
+  },
+  {
+    "id": 13,
+    "content": "A very comprehensive overview. I learned a lot from this article.",
+    "votes": 11,
+    "timestamp": "2024-06-15T08:00:00Z",
+    "replies": []
+  },
+  {
+    "id": 14,
+    "content": "Some parts were a bit too basic for me, but overall it's a solid read.",
+    "votes": 7,
+    "timestamp": "2024-06-15T07:00:00Z",
+    "replies": []
+  },
+  {
+    "id": 15,
+    "content": "The author's perspective on coding best practices was very enlightening.",
+    "votes": 10,
+    "timestamp": "2024-06-15T06:00:00Z",
+    "replies": []
+  }
+]
