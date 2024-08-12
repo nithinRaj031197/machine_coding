@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 import { fetchComments } from "./api/comments";
+import NestedComments from "./components/NestedComments";
+import { IComment } from "./types/comments";
 
 function App() {
-  const [comments, setComments] = useState<Comment[]>([]);
+  const [comments, setComments] = useState<IComment[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
 
@@ -12,7 +13,7 @@ function App() {
     const getComments = async () => {
       try {
         const data = await fetchComments();
-        setComments(data?.data);
+        setComments(data);
       } catch (error: any) {
         setError(error);
       } finally {
@@ -26,8 +27,9 @@ function App() {
   if (error) return <p>Error loading comments: {error?.message}</p>;
 
   return (
-    <div>
-      <h1>Nested Comment System</h1>
+    <div className="flex flex-col items-center gap-4 justify-center">
+      <h1 className="text-center text-2xl font-bold">Nested Comment System</h1>
+      <NestedComments comments={comments} />
     </div>
   );
 }

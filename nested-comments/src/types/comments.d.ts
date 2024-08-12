@@ -1,7 +1,7 @@
-export interface Comment {
+export interface IComment {
   id: number;
   content: string;
   votes: number;
   timestamp: string;
-  replies: Comment[];
+  replies: IComment[];
 }
