@@ -1,5 +1,5 @@
 import { IComment } from "../types/comments";
-import useComments from "../hooks/useComments";
+import useComments from "../hooks/useCommentTree";
 import CommentCreation from "./CommentCreation";
 import CommentContainer from "./CommentContainer";
 
