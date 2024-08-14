@@ -4,9 +4,9 @@ import { IComment } from "../types/comments";
 type InsertNode = (tree: IComment[], commentId: number, content: IComment) => IComment[];
 export type InsertComment = (commentId: number | null, content: string) => void;
 type EditNode = (tree: IComment[], nodeId: number, content: string) => IComment[];
-type EditComment = (commentId: number, content: string) => void;
+export type EditComment = (commentId: number, content: string) => void;
 type DeleteNode = (tree: IComment[], nodeId: number) => IComment[];
-type DeleteComment = (commentId: number) => void;
+export type DeleteComment = (commentId: number) => void;
 
 const useCommentTree = ({ initialComments }: { initialComments: IComment[] }) => {
   const [comments, setComments] = useState<IComment[]>([]);
@@ -20,7 +20,7 @@ const useCommentTree = ({ initialComments }: { initialComments: IComment[] }) =>
       if (comment.id === commentId) {
         return {
           ...comment,
-          replies: [...comment.replies, content],
+          replies: [content, ...comment.replies],
         };
       } else if (comment.replies && comment.replies.length > 0) {
         return {
