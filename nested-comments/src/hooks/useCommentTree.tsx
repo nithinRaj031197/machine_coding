@@ -1,15 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IComment } from "../types/comments";
 
 type InsertNode = (tree: IComment[], commentId: number, content: IComment) => IComment[];
-type InsertComment = (commentId: number | null, content: string) => void;
+export type InsertComment = (commentId: number | null, content: string) => void;
 type EditNode = (tree: IComment[], nodeId: number, content: string) => IComment[];
 type EditComment = (commentId: number, content: string) => void;
 type DeleteNode = (tree: IComment[], nodeId: number) => IComment[];
 type DeleteComment = (commentId: number) => void;
 
-const useCommentTree = (initialComments: IComment[]) => {
-  const [comments, setComments] = useState<IComment[]>(initialComments);
+const useCommentTree = ({ initialComments }: { initialComments: IComment[] }) => {
+  const [comments, setComments] = useState<IComment[]>([]);
+
+  useEffect(() => {
+    setComments(initialComments);
+  }, [initialComments]);
 
   const insertNode: InsertNode = (tree, commentId, content) => {
     return tree.map((comment) => {

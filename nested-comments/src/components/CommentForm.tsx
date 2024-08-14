@@ -1,24 +1,26 @@
-import React, { useState } from "react";
+import { ChangeEvent, useState } from "react";
+import { InsertComment } from "../hooks/useCommentTree";
 
-interface CommentFormProps {
-  onSubmit: (parentId: number | null, content: string) => void;
-  parentId?: number | null;
+interface ICommentForm {
+  insertComment: InsertComment;
+  contentId?: number | null;
 }
 
-const CommentForm: React.FC<CommentFormProps> = ({ onSubmit, parentId = null }) => {
-  const [content, setContent] = useState("");
+const CommentForm = ({ insertComment, contentId = null }: ICommentForm) => {
+  const [newComment, setNewComment] = useState("");
 
-  const handleSubmit = () => {
-    if (content.trim()) {
-      onSubmit(parentId, content);
-      setContent("");
-    }
+  const handleNewCommentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setNewComment(e.target.value);
   };
 
+  const addComment = (commentId: null | number, content: string) => {
+    insertComment(commentId, content);
+    setNewComment("");
+  };
   return (
     <div className="flex gap-3">
-      <textarea className="border border-[#646464] p-2" cols={50} rows={3} value={content} onChange={(e) => setContent(e.target.value)} />
-      <button onClick={handleSubmit}>Add Comment</button>
+      <textarea value={newComment} className="border border-[#646464] p-2" cols={50} rows={3} onChange={handleNewCommentChange}></textarea>
+      <button onClick={() => addComment(contentId, newComment)}>Add Comment</button>
     </div>
   );
 };
