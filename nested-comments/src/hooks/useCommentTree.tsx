@@ -7,6 +7,8 @@ type EditNode = (tree: IComment[], nodeId: number, content: string) => IComment[
 export type EditComment = (commentId: number, content: string) => void;
 type DeleteNode = (tree: IComment[], nodeId: number) => IComment[];
 export type DeleteComment = (commentId: number) => void;
+type UpVoteNode = (tree: IComment[], commentId: number) => IComment[];
+export type UpVoteComment = (commentId: number) => void;
 
 const useCommentTree = ({ initialComments }: { initialComments: IComment[] }) => {
   const [comments, setComments] = useState<IComment[]>([]);
@@ -85,11 +87,33 @@ const useCommentTree = ({ initialComments }: { initialComments: IComment[] }) =>
     setComments((prevComments) => deleteNode(prevComments, commentId));
   };
 
+  const upVoteNode: UpVoteNode = (tree, commentId) => {
+    return tree.map((node) => {
+      if (node.id === commentId) {
+        return {
+          ...node,
+          votes: node.votes + 1,
+        };
+      } else if (node.replies && node.replies?.length > 0) {
+        return {
+          ...node,
+          replies: upVoteNode(node.replies, commentId),
+        };
+      }
+      return node;
+    });
+  };
+
+  const upVoteComment: UpVoteComment = (commentId) => {
+    setComments((prevComments) => upVoteNode(prevComments, commentId));
+  };
+
   return {
     comments,
     insertComment,
     editComment,
     deleteComment,
+    upVoteComment,
   };
 };
 

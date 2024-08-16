@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { IComment } from "./types/comments";
 import { fetchComments } from "./api/comments";
-import useCommentTree, { DeleteComment, EditComment, InsertComment } from "./hooks/useCommentTree";
+import useCommentTree, { DeleteComment, EditComment, InsertComment, UpVoteComment } from "./hooks/useCommentTree";
 import CommentForm from "./components/CommentForm";
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
 
-  const { comments, insertComment, deleteComment, editComment } = useCommentTree({ initialComments });
+  const { comments, insertComment, deleteComment, editComment, upVoteComment } = useCommentTree({ initialComments });
 
   useEffect(() => {
     setLoading(true);
@@ -34,7 +34,13 @@ function App() {
       <h1 className="text-center text-2xl font-bold">Nested Comment System</h1>
       <div className="p-4 shadow-md h-[90vh] w-[50vw] overflow-scroll flex flex-col gap-2">
         <CommentForm insertComment={insertComment} />
-        <CommentList comments={comments} insertComment={insertComment} deleteComment={deleteComment} editComment={editComment} />
+        <CommentList
+          comments={comments}
+          insertComment={insertComment}
+          deleteComment={deleteComment}
+          editComment={editComment}
+          upVoteComment={upVoteComment}
+        />
       </div>
     </div>
   );
@@ -45,16 +51,25 @@ const CommentList = ({
   insertComment,
   deleteComment,
   editComment,
+  upVoteComment,
 }: {
   comments: IComment[];
   insertComment: InsertComment;
   deleteComment: DeleteComment;
   editComment: EditComment;
+  upVoteComment: UpVoteComment;
 }) => {
   return (
     <section className="flex flex-col gap-2">
       {comments?.map((comment: IComment) => (
-        <Comment key={comment.id} comment={comment} insertComment={insertComment} deleteComment={deleteComment} editComment={editComment} />
+        <Comment
+          key={comment.id}
+          comment={comment}
+          insertComment={insertComment}
+          deleteComment={deleteComment}
+          editComment={editComment}
+          upVoteComment={upVoteComment}
+        />
       ))}
     </section>
   );
@@ -65,11 +80,13 @@ const Comment = ({
   insertComment,
   deleteComment,
   editComment,
+  upVoteComment,
 }: {
   comment: IComment;
   insertComment: InsertComment;
   deleteComment: DeleteComment;
   editComment: EditComment;
+  upVoteComment: UpVoteComment;
 }) => {
   const [expand, setExpand] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -109,6 +126,12 @@ const Comment = ({
         </div>
       )}
       <div className="flex gap-4">
+        <button className="bg-[#0099ff] p-1 min-w-[3rem] rounded-md text-xl" onClick={() => upVoteComment(comment?.id)}>
+          👍
+        </button>
+        <button className="bg-[#0099ff] p-1 min-w-[3rem] rounded-md text-xl" onClick={() => upVoteComment(comment?.id)}>
+          👎
+        </button>
         <button className="bg-[#0099ff] p-2 rounded-md min-w-[5rem]" onClick={() => setExpand(!expand)}>
           {expand ? "Hide Reply" : "Reply"}
         </button>
@@ -127,7 +150,13 @@ const Comment = ({
       {expand && (
         <div className="p-4 flex flex-col gap-2 m-2">
           <CommentForm insertComment={insertComment} contentId={comment.id} />
-          <CommentList comments={comment.replies || []} insertComment={insertComment} deleteComment={deleteComment} editComment={editComment} />
+          <CommentList
+            comments={comment.replies || []}
+            insertComment={insertComment}
+            deleteComment={deleteComment}
+            editComment={editComment}
+            upVoteComment={upVoteComment}
+          />
         </div>
       )}
     </div>
