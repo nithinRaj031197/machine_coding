@@ -9,6 +9,8 @@ type DeleteNode = (tree: IComment[], nodeId: number) => IComment[];
 export type DeleteComment = (commentId: number) => void;
 type UpVoteNode = (tree: IComment[], commentId: number) => IComment[];
 export type UpVoteComment = (commentId: number) => void;
+type DownVoteNode = (tree: IComment[], commentId: number) => IComment[];
+export type DownVoteComment = (commentId: number) => void;
 
 const useCommentTree = ({ initialComments }: { initialComments: IComment[] }) => {
   const [comments, setComments] = useState<IComment[]>([]);
@@ -108,12 +110,34 @@ const useCommentTree = ({ initialComments }: { initialComments: IComment[] }) =>
     setComments((prevComments) => upVoteNode(prevComments, commentId));
   };
 
+  const downVoteNode: DownVoteNode = (tree, commentId) => {
+    return tree.map((node) => {
+      if (node.id === commentId) {
+        return {
+          ...node,
+          votes: node.votes - 1,
+        };
+      } else if (node.replies && node.replies?.length > 0) {
+        return {
+          ...node,
+          replies: downVoteNode(node.replies, commentId),
+        };
+      }
+      return node;
+    });
+  };
+
+  const downVoteComment: DownVoteComment = (commentId) => {
+    setComments((prevComments) => downVoteNode(prevComments, commentId));
+  };
+
   return {
     comments,
     insertComment,
     editComment,
     deleteComment,
     upVoteComment,
+    downVoteComment,
   };
 };
 

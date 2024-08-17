@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { IComment } from "./types/comments";
 import { fetchComments } from "./api/comments";
-import useCommentTree, { DeleteComment, EditComment, InsertComment, UpVoteComment } from "./hooks/useCommentTree";
+import useCommentTree, { DeleteComment, DownVoteComment, EditComment, InsertComment, UpVoteComment } from "./hooks/useCommentTree";
 import CommentForm from "./components/CommentForm";
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
 
-  const { comments, insertComment, deleteComment, editComment, upVoteComment } = useCommentTree({ initialComments });
+  const { comments, insertComment, deleteComment, editComment, upVoteComment, downVoteComment } = useCommentTree({ initialComments });
 
   useEffect(() => {
     setLoading(true);
@@ -40,6 +40,7 @@ function App() {
           deleteComment={deleteComment}
           editComment={editComment}
           upVoteComment={upVoteComment}
+          downVoteComment={downVoteComment}
         />
       </div>
     </div>
@@ -52,12 +53,14 @@ const CommentList = ({
   deleteComment,
   editComment,
   upVoteComment,
+  downVoteComment,
 }: {
   comments: IComment[];
   insertComment: InsertComment;
   deleteComment: DeleteComment;
   editComment: EditComment;
   upVoteComment: UpVoteComment;
+  downVoteComment: DownVoteComment;
 }) => {
   return (
     <section className="flex flex-col gap-2">
@@ -69,6 +72,7 @@ const CommentList = ({
           deleteComment={deleteComment}
           editComment={editComment}
           upVoteComment={upVoteComment}
+          downVoteComment={downVoteComment}
         />
       ))}
     </section>
@@ -81,12 +85,14 @@ const Comment = ({
   deleteComment,
   editComment,
   upVoteComment,
+  downVoteComment,
 }: {
   comment: IComment;
   insertComment: InsertComment;
   deleteComment: DeleteComment;
   editComment: EditComment;
   upVoteComment: UpVoteComment;
+  downVoteComment: DownVoteComment;
 }) => {
   const [expand, setExpand] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -129,7 +135,7 @@ const Comment = ({
         <button className="bg-[#0099ff] p-1 min-w-[3rem] rounded-md text-xl" onClick={() => upVoteComment(comment?.id)}>
           👍
         </button>
-        <button className="bg-[#0099ff] p-1 min-w-[3rem] rounded-md text-xl" onClick={() => upVoteComment(comment?.id)}>
+        <button className="bg-[#0099ff] p-1 min-w-[3rem] rounded-md text-xl" onClick={() => downVoteComment(comment?.id)}>
           👎
         </button>
         <button className="bg-[#0099ff] p-2 rounded-md min-w-[5rem]" onClick={() => setExpand(!expand)}>
@@ -156,6 +162,7 @@ const Comment = ({
             deleteComment={deleteComment}
             editComment={editComment}
             upVoteComment={upVoteComment}
+            downVoteComment={downVoteComment}
           />
         </div>
       )}
