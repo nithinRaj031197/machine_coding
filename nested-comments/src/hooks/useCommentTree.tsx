@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { IComment } from "../types/comments";
+import { SortCommentTypeEnum } from "../utilities/enums";
 
 type InsertNode = (tree: IComment[], commentId: number, content: IComment) => IComment[];
 export type InsertComment = (commentId: number | null, content: string) => void;
@@ -11,6 +12,11 @@ type UpVoteNode = (tree: IComment[], commentId: number) => IComment[];
 export type UpVoteComment = (commentId: number) => void;
 type DownVoteNode = (tree: IComment[], commentId: number) => IComment[];
 export type DownVoteComment = (commentId: number) => void;
+
+export type ISortCommentType = SortCommentTypeEnum.MOST_VOTED | SortCommentTypeEnum.NEWEST | SortCommentTypeEnum.OLDEST;
+
+type SortCommentNode = (tree: IComment[], sortType: ISortCommentType) => IComment[];
+export type SortComment = (sortType: ISortCommentType) => void;
 
 const useCommentTree = ({ initialComments }: { initialComments: IComment[] }) => {
   const [comments, setComments] = useState<IComment[]>([]);
@@ -131,6 +137,23 @@ const useCommentTree = ({ initialComments }: { initialComments: IComment[] }) =>
     setComments((prevComments) => downVoteNode(prevComments, commentId));
   };
 
+  const sortCommentNode: SortCommentNode = (tree, sortType) => {
+    return tree.slice().sort((a, b) => {
+      if (sortType === SortCommentTypeEnum.NEWEST) {
+        return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+      } else if (sortType === SortCommentTypeEnum.OLDEST) {
+        return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
+      } else if (sortType === SortCommentTypeEnum.MOST_VOTED) {
+        return b.votes - a.votes;
+      }
+      return 0;
+    });
+  };
+
+  const sortComments: SortComment = (sortType: ISortCommentType) => {
+    setComments((prevComments) => sortCommentNode(prevComments, sortType));
+  };
+
   return {
     comments,
     insertComment,
@@ -138,6 +161,7 @@ const useCommentTree = ({ initialComments }: { initialComments: IComment[] }) =>
     deleteComment,
     upVoteComment,
     downVoteComment,
+    sortComments,
   };
 };
 
